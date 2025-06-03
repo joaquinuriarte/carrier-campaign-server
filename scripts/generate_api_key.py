@@ -10,5 +10,5 @@ if __name__ == "__main__":
     api_key = generate_api_key()
     print("\nGenerated API Key:")
     print("-" * 50)
-    print(api_key)
+    print("API_KEY:", api_key)
     print("-" * 50)
