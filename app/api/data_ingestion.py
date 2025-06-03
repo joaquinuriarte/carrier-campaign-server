@@ -11,7 +11,9 @@ async def ingest_data(request: CallDataBase):
     Endpoint to ingest call data into the database.
     Uses a single database session for all requests.
     """
+    # Automatically create a database session for the request
     db = SessionLocal()
+    
     try:
         # Create a new CallData instance from the request
         db_call_data = CallData(
