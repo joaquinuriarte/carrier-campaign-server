@@ -15,8 +15,8 @@ async def calculate_percentage(request: PriceNegotiationRequest):
     Returns the percentage increase.
     """
     try:
-        base_price = float(request.base_price)
-        negotiated_price = float(request.negotiated_price)
+        base_price = float(request.base_price.strip())
+        negotiated_price = float(request.negotiated_price.strip())
 
         if base_price <= 0:
             raise HTTPException(status_code=400, detail="Base price must be greater than zero")
@@ -32,6 +32,9 @@ async def calculate_percentage(request: PriceNegotiationRequest):
             "message": f"Price {'increased' if percentage_increase > 0 else 'decreased'} by {abs(round(percentage_increase, 2))}%"
         }
     except ValueError:
-        raise HTTPException(status_code=400, detail="Both base_price and negotiated_price must be valid numbers.")
+        raise HTTPException(
+            status_code=400,
+            detail=f"Both base_price and negotiated_price must be valid numbers. Provided: base_price='{request.base_price}', negotiated_price='{request.negotiated_price}'"
+        )
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e)) 
