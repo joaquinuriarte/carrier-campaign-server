@@ -1,20 +1,18 @@
-# Base image
-FROM python:3.8-slim
+# syntax=docker/dockerfile:1
+FROM python:3.11-slim
 
-# Set working directory
+# Speed & cleanliness
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
 WORKDIR /app
-
-# Copy requirements first to leverage Docker cache
 COPY requirements.txt .
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
-# Copy the rest of the application
 COPY . .
 
-# Expose the port the app runs on
+# If this is FastAPI
 EXPOSE 8000
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
-# Command to run the application
-CMD ["python", "main.py"] 
