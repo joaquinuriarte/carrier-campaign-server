@@ -5,9 +5,9 @@ A FastAPI-based server for managing carrier campaign calculations and data. Secu
 ## Overview
 
 The server provides three main endpoints:
-- Load data retrieval
-- Load price calculations
-- Call data ingestion
+- Load data retrieval: Used by agent to get available loads
+- Load price calculations: Used by agent to handle price negotiations
+- Call data ingestion: Used by agent to add call_data produced by the call to the database
 
 All endpoints require API key authentication via the `X-API-Key` header and are served over HTTPS.
 
