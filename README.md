@@ -1,1 +1,79 @@
-# carrier-campaign-server
+# Carrier Campaign Server
+
+A FastAPI-based server for managing carrier campaign calculations and data. Secured with API key authentication and deployed on Render.
+
+## Overview
+
+The server provides three main endpoints:
+- Load data retrieval
+- Load price calculations
+- Call data ingestion
+
+All endpoints require API key authentication via the `X-API-Key` header and are served over HTTPS.
+
+## Components
+
+- **API Layer**: FastAPI application with three main routers (loads, calculations, data ingestion)
+- **Security**: API key validation using environment variables
+- **Database**: Managing connection with PostgreSQL database for storing call data
+- **Scripts**: Utilities for API key generation and table creation
+- **Data**: Sample loads for demo purposes
+- **Models**: Pydantic models for request/response validation and SQLAlchemy models for database operations
+
+## Deployment
+
+### Local Development
+1. Install Docker
+2. Build and run:
+```bash
+docker build -t carrier-campaign-server .
+docker run -p 8000:8000 -e DATABASE_URL="your_db_url" carrier-campaign-server
+```
+
+### Render Deployment
+1. Fork this repository
+2. Create a new Web Service on Render
+3. Connect to your GitHub repository
+4. Render will automatically detect the Dockerfile and deploy
+
+### Database Setup
+- Create a PostgreSQL database on Render
+- Add the database URL to the Web Service's environment variables
+- The server will automatically connect using the provided URL
+
+## API Endpoints
+
+### Get Loads
+```http
+GET https://carrier-campaign-server-docker.onrender.com/loads
+Header: X-API-Key: your_api_key
+```
+
+### Calculate Percentage
+```http
+POST https://carrier-campaign-server-docker.onrender.com/calculations/percentage
+Header: X-API-Key: your_api_key
+Body: {
+  "base_price": "750",
+  "negotiated_price": "850"
+}
+```
+
+### Ingest Call Data
+```http
+POST https://carrier-campaign-server-docker.onrender.com/data/ingest
+Header: X-API-Key: your_api_key
+Body: {
+  "call_date": "2025-05-04T20:13:08.554+0000",
+  "base_price": "990",
+  "final_price": "1020",
+  "load_origin": "Miami",
+  "call_outcome": "success_rate_booked",
+  "call_duration": "190",
+  "is_negotiated": "true",
+  "load_destination": "Seattle",
+  "carrier_sentiment": "carrier_sentiment_negative"
+}
+```
+
+> Note: The deployed instance on Render's free tier may take a few moments to spin up after periods of inactivity.
