@@ -22,19 +22,31 @@ All endpoints require API key authentication via the `X-API-Key` header and are 
 
 ## Deployment
 
+### API Key Setup
+1. Generate API key using the script:
+```bash
+python scripts/generate_api_key.py
+```
+2. Store the generated key:
+   - Local: Add to docker run command: `-e API_KEY="your_generated_key"`
+   - Production: Add to Render environment variables (key: API_KEY)
+
 ### Local Development
 1. Install Docker
 2. Build and run:
 ```bash
 docker build -t carrier-campaign-server .
-docker run -p 8000:8000 -e DATABASE_URL="your_db_url" carrier-campaign-server
+docker run -p 8000:8000 -e DATABASE_URL="your_db_url" -e API_KEY="your_generated_key" carrier-campaign-server
 ```
 
 ### Render Deployment
 1. Fork this repository
 2. Create a new Web Service on Render
 3. Connect to your GitHub repository
-4. Render will automatically detect the Dockerfile and deploy
+4. Add environment variables:
+   - DATABASE_URL: Your PostgreSQL URL
+   - API_KEY: Your generated API key
+5. Render will automatically detect the Dockerfile and deploy
 
 ### Database Setup
 - Create a PostgreSQL database on Render
