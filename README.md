@@ -38,10 +38,10 @@ docker run -p 8000:8000 -e DATABASE_URL="your_db_url" carrier-campaign-server
 
 ### Database Setup
 - Create a PostgreSQL database on Render
-- Add the database URL to the Web Service's environment variables
+- Add the database URL to the Web Service's environment variables (Use key_name: DATABASE_URL)
 - The server will automatically connect using the provided URL
 
-## API Endpoints
+## Accessing Deployment: API Endpoints
 
 ### Get Loads
 ```http
